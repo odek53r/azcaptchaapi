@@ -4,7 +4,7 @@ from distutils.core import setup
 setup(
     name='azcaptchaapi',
     version='0.1',
-    packages=['twocaptchaapi'],
+    packages=['azcaptchaapi'],
     url='https://github.com/azcaptcha/azcaptchaapi',
     license='MIT',
     author='AZCaptcha by Joel Höner (athre0z)',
