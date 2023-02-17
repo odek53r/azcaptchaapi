@@ -13,5 +13,7 @@ setup(
     download_url='https://github.com/azcaptcha/azcaptchaapi/archive/v0.1.tar.gz',
     install_requires=[
         'requests>=2.9',
+        'aiohttp>=3.8.4',
+        'aiofiles>=23.1.0'
     ],
 )
