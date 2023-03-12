@@ -220,7 +220,7 @@ class Captcha(object):
             'action': 'get',
             'id': self.captcha_id,
         })
-        text = await resp.text()
+        text = await asyncio.wait_for(resp.text(), timeout=1)
 
         # Success?
         if '|' in text:
