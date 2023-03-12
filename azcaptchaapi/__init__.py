@@ -83,6 +83,21 @@ def _rewrite_to_format_err(*exception_types):
     return decorator
 
 
+def retry_on_timeout(max_retries, wait_time=1):
+    def decorator(func):
+        async def wrapper(*args, **kwargs):
+            retries = 0
+            while retries < max_retries:
+                try:
+                    result = await func(*args, **kwargs)
+                    return result
+                except Exception as e:
+                    retries += 1
+                    if retries == max_retries:
+                        raise
+                    await asyncio.sleep(wait_time)
+        return wrapper
+    return decorator
 # ----------------------------------------------------------------------------------------------- #
 # [Public API]                                                                                    #
 # ----------------------------------------------------------------------------------------------- #
@@ -192,6 +207,7 @@ class Captcha(object):
 
     @_rewrite_http_to_com_err
     @_rewrite_to_format_err(ValueError)
+    @retry_on_timeout(max_retries=3, wait_time=1)
     async def try_get_result(self):
         """
         Tries to obtain the captcha text. If the result is not yet available,
